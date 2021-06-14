@@ -1,114 +1,68 @@
 <template>
     <div
-        class="datagrid"
     >
-        <div
-            class="datagrid__header"
-        >
-            <div class="datagrid__header-title-container">
-                <h3 class="datagrid__header-title">
-                    <slot name="title">
-                        <i class="el-icon-bank-card"/> Data
-                    </slot>
-                    ({{
-                        tableData.meta ? tableData.meta.total : ''
-                    }})
-                </h3>
-                <div class="datagrid__header-actions-container">
-                    <slot name="header_actions">
-                        <inertia-link
-                            v-if="hasCreateButton"
-                            :href="getPath + '/create'"
-                        >
-                            <el-button size="large" type="primary">
-                                {{ $page.props.layout_lang.common.create }}
-                            </el-button>
-                        </inertia-link>
-                    </slot>
-                </div>
-            </div>
-            <div class="datagrid__header-filters-container">
-                <sort-by-filter
-                    v-model="tableState.sorted_by"
-                    :addtional-sorded-by-items="addtionalSordedByItems"
-                    :value="tableState.sorted_by"
-                    @change="resetPagination"
-                />
-                <slot name="additional_header_filters"/>
-                <created-at-filter
-                    v-model="tableState.created_at"
-                    :value="tableState.created_at"
-                    @change="resetPagination"
-                />
-                <created-by-filter
-                    v-if="hasCreatedBy"
-                    v-model="tableState.created_by"
-                    :value="tableState.created_by"
-                    @change="resetPagination"
-                />
-                <slot name="header_search">
-                    <el-input
-                        v-model="tableState.searchTxt"
-                        :placeholder="$page.props.layout_lang.common.type_somthing_for_search"
-                        size="large"
-                        @change="resetPagination"
-                    />
-                </slot>
-            </div>
-        </div>
-        <div v-loading="fetching"
-             element-loading-background="rgb(255, 255, 255)"
-             element-loading-spinner="el-icon-loading"
-             element-loading-text=""
-        >
-            <el-table
-
+      <div class="bg-white shadow-md rounded">
+        <el-table
+                class="min-w-max w-full table-auto"
                 :data="tableData.data"
                 :height="tableHeight"
                 :max-height="tableHeight"
                 border
+                highlight-current-row
+                current-row-key
+                :row-class-name="(row,rowIndex) => 'border-b border-gray-200 bg-gray-50 hover:bg-gray-100'"
+                :header-row-class-name="(row,rowIndex) =>
+                'bg-gray-200 text-gray-600 uppercase text-sm leading-normal bg-gray-200'"
+                :header-cell-class-name="(row,rowIndex) =>
+                'py-3 px-6 text-center'"
+                :cell-class-name="(row, column, rowIndex, columnIndex) =>
+                'py-3 px-6 text-left'"
                 size="medium"
+                tooltip-effect="dark"
+                show-summary
+                lazy
                 sortable
                 stripe
-                style="width: 100%"
             >
-                <slot v-bind="{ tableState }" name="tableView"/>
-                <el-table-column
-                    v-if="hasCreatedBy"
-                    :label="$page.props.layout_lang.common.created_by"
-                    align="center"
-                    header-align="center"
-                    prop="created_by.name"
-                    width="250"
-                >
-                    <template slot-scope="{ row, column, $index }">
-                        <CreatedBy :item="row"/>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    :label="$page.props.layout_lang.common.date_and_time"
-                    align="center"
-                    header-align="center"
-                    prop="created_at"
-                    width="180"
-                >
-                    <template slot-scope="{ row, column, $index }">
-                        <CreatedAt :item="row"/>
-                    </template>
-                </el-table-column>
-                <slot name="actions">
-                    <el-table-column
-                        :label="$page.props.layout_lang.common.options"
-                        align="center"
-                        width="150"
-                    >
-                        <template slot-scope="{ row, column, $index }">
-                            <slot>
-                                <Actions :endpoint="getPath" :item="row"/>
-                            </slot>
-                        </template>
-                    </el-table-column>
-                </slot>
+                <slot v-bind="{ tableState }" />
+<!--              :label="$page.props.layout_lang.common.created_by"-->
+<!--                <el-table-column-->
+<!--                    v-if="hasCreatedBy"-->
+
+<!--                    align="center"-->
+<!--                    header-align="center"-->
+<!--                    prop="created_by.name"-->
+<!--                    width="250"-->
+<!--                >-->
+<!--                    <template slot-scope="{ row, column, $index }">-->
+<!--                        <CreatedBy :item="row"/>-->
+<!--                    </template>-->
+<!--                </el-table-column>-->
+<!--              :label="$page.props.layout_lang.common.date_and_time"-->
+<!--                <el-table-column-->
+<!--                    align="center"-->
+<!--                    header-align="center"-->
+<!--                    prop="created_at"-->
+<!--                    width="180"-->
+<!--                >-->
+<!--                    <template slot-scope="{ row, column, $index }">-->
+<!--                        <CreatedAt :item="row"/>-->
+<!--                    </template>-->
+<!--                </el-table-column>-->
+<!--                <slot name="actions">-->
+<!--&lt;!&ndash;                  :label="$page.props.layout_lang.common.options"&ndash;&gt;-->
+<!--                    <el-table-column-->
+
+<!--                        align="center"-->
+<!--                        width="150"-->
+<!--                    >-->
+<!--                        <template slot-scope="{ row, column, $index }">-->
+<!--                            <slot>-->
+<!--                                <Actions :endpoint="getPath" :item="row"/>-->
+<!--                            </slot>-->
+<!--                        </template>-->
+<!--                    </el-table-column>-->
+<!--                </slot>-->
             </el-table>
         </div>
         <div>
@@ -127,7 +81,6 @@ import CreatedAt from './CreatedAt'
 import RowId from './RowId'
 import Actions from './Actions'
 import Paginate from './Paginate'
-import AlertMixin from './../../../Mixins/AlertMixin'
 import CreatedByFilter from './CreatedByFilter.vue'
 import CreatedAtFilter from './CreatedAtFilter.vue'
 import SortByFilter from './sortByFilter.vue'
@@ -143,7 +96,6 @@ export default {
         CreatedAtFilter,
         SortByFilter
     },
-    mixins: [AlertMixin],
     props: {
         hasCreateButton: {
             type: Boolean,
@@ -163,7 +115,7 @@ export default {
         actionsLink: {
             type: String
         },
-        addtionalSordedByItems: {
+        additionalSortedByItems: {
             type: Array
         }
     },
@@ -218,16 +170,13 @@ export default {
     },
 
     methods: {
-        changeActiveUi (ui) {
-            this.tableState.activeUi = ui
-            this.saveTableState()
-        },
         resetPagination () {
             this.tableState.currentPage = 1
             this.fetch()
         },
         tableStateKey () {
-            return `table_${this.endpoint}_${this.$page.props.loggedManager.id}`
+          // _${this.$page.props.loggedManager.id}
+            return `table_${this.endpoint}`
         },
         saveTableState () {
             localStorage.setItem(
@@ -255,10 +204,11 @@ export default {
                     params: this.getTableParams
                 })
                 .then((res) => {
+
                     this.tableData = res.data
                 })
                 .catch((error) => {
-                    this.alertUser('Server Error', `${error.message}`, 'warning')
+                    // this.alertUser('Server Error', `${error.message}`, 'warning')
                 })
                 .finally(() => {
                     this.fetching = false

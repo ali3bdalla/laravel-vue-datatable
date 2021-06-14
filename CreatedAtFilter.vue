@@ -1,15 +1,15 @@
 <template>
-  <el-date-picker
-      v-model="dates"
-      :default-value="defaultValue"
-      :end-placeholder="$page.props.layout_lang.common.end_at"
-      :start-placeholder="$page.props.layout_lang.common.start_at"
-      range-separator="-"
-      size="large"
-      type="daterange"
-      @change="changed"
-  >
-  </el-date-picker>
+<!--  <el-date-picker-->
+<!--      v-model="dates"-->
+<!--      :default-value="defaultValue"-->
+<!--      :end-placeholder="$page.props.layout_lang.common.end_at"-->
+<!--      :start-placeholder="$page.props.layout_lang.common.start_at"-->
+<!--      range-separator="-"-->
+<!--      size="large"-->
+<!--      type="daterange"-->
+<!--      @change="changed"-->
+<!--  >-->
+<!--  </el-date-picker>-->
 </template>
 
 <script>

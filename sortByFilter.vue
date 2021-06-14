@@ -1,14 +1,14 @@
 <template>
-    <el-select v-model="sortedBy" size="large" filterable :placeholder="$page.props.layout_lang.common.sort_by"
-               @change="changed"
-    >
-        <el-option
-            v-for="(item,index) in sortedByList"
-            :key="index"
-            :label="item.label"
-            :value="index"
-        />
-    </el-select>
+<!--    <el-select v-model="sortedBy" size="large" filterable :placeholder="$page.props.layout_lang.common.sort_by"-->
+<!--               @change="changed"-->
+<!--    >-->
+<!--        <el-option-->
+<!--            v-for="(item,index) in sortedByList"-->
+<!--            :key="index"-->
+<!--            :label="item.label"-->
+<!--            :value="index"-->
+<!--        />-->
+<!--    </el-select>-->
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
             default: () => {},
             type: [Object,String,Number]
         },
-        addtionalSordedByItems: {
+        additionalSortedByItems: {
             type: Array,
             default: () => []
         }
@@ -26,14 +26,14 @@ export default {
     data () {
         return {
             sortedByList: [
-                { key: 'id', direction: 'asc', label: this.$page.props.layout_lang.common.sort.oldest },
-                { key: 'id', direction: 'desc', label: this.$page.props.layout_lang.common.sort.newest }
+                // { key: 'id', direction: 'asc', label: this.$page.props.layout_lang.common.sort.oldest },
+                // { key: 'id', direction: 'desc', label: this.$page.props.layout_lang.common.sort.newest }
             ],
             sortedBy: null
         }
     },
     created () {
-        Array.from(this.addtionalSordedByItems).forEach(item => {
+        Array.from(this.additionalSortedByItems).forEach(item => {
             if (item.key && item.direction && item.label) {
                 this.sortedByList.push(item)
             }

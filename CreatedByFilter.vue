@@ -1,19 +1,19 @@
 <template>
-  <el-select
-    size="large"
-    v-model="createdBy"
-    @change="changed"
-    filterable
-    :placeholder="$page.props.layout_lang.common.created_by"
-  >
-    <el-option
-      v-for="(item,index) in createdByUsers"
-      :key="index"
-      :label="item.name"
-      :value="item.id"
-    >
-    </el-option>
-  </el-select>
+<!--  <el-select-->
+<!--    size="large"-->
+<!--    v-model="createdBy"-->
+<!--    @change="changed"-->
+<!--    filterable-->
+<!--    :placeholder="$page.props.layout_lang.common.created_by"-->
+<!--  >-->
+<!--    <el-option-->
+<!--      v-for="(item,index) in createdByUsers"-->
+<!--      :key="index"-->
+<!--      :label="item.name"-->
+<!--      :value="item.id"-->
+<!--    >-->
+<!--    </el-option>-->
+<!--  </el-select>-->
 </template>
 
 <script>
